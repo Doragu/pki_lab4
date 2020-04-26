@@ -1,0 +1,12 @@
+{
+    "web": {
+        "client_id":"228266764072-euojq2qhhegur7svk221f2toogvomm8g.apps.googleusercontent.com",
+        "project_id":"my-project-pki-lab4",
+        "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+        "token_uri":"https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret":"88DZ8nSm6TbMAWzSv_asdhPl",
+        "redirect_uris":["http://localhost:5000/auth/google/callback"],
+        "javascript_origins":["http://localhost:5000"]
+    }
+}
