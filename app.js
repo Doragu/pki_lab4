@@ -12,6 +12,10 @@ const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_U
 var authed = false;
 
 app.get('/', (req, res) => {
+    res.send('<form method="get" action="/login"><button type="submit">Zaloguj</button></form>')
+})
+
+app.get('/login', (req, res) => {
     if (!authed) {
         // Generate an OAuth URL and redirect there
         const url = oAuth2Client.generateAuthUrl({
@@ -31,10 +35,14 @@ app.get('/', (req, res) => {
                 console.log(loggedUser);
             }
             res.send('Logged in: '.concat(loggedUser,' <img src="', result.data.picture, 
-                    '"height="23" width="23">'));
+                    '"height="23" width="23"><br><form method="get" action="/logout"><button type="submit">Wyloguj</button></form>'));
         });
-    }
-   
+    } 
+})
+
+app.get('/logout', (req, res) => {
+    authed = false;
+    res.redirect(OAuth2Data.web.javascript_origins[1])
 })
 
 app.get('/auth/google/callback', function (req, res) {
@@ -49,7 +57,7 @@ app.get('/auth/google/callback', function (req, res) {
                 console.log('Successfully authenticated');
                 oAuth2Client.setCredentials(tokens);
                 authed = true;
-                res.redirect('/')
+                res.redirect('/login')
             }
         });
     }
