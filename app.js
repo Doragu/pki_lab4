@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
         console.log(url)
         res.redirect(url);
     } else {
-        var outh2 = google.oauth2({ auth: oAuth2Client, version: 'v2' });
+        var oauth2 = google.oauth2({ auth: oAuth2Client, version: 'v2' });
         oauth2.userinfo.v2.me.get(function(err, result) {
             if (err) {
                 console.log('BŁĄD');
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
                 console.log(loggedUser);
             }
             res.send('Logged in: '.concat(loggedUser,' <img src="', result.data.picture, 
-                    '"height="23" width="23"'))
+                    '"height="23" width="23">'));
         });
     }
    
