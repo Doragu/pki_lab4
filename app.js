@@ -19,11 +19,9 @@ const client = new Client({
 
 client.connect()
 
-updateData()
-
 app.get('/', (req, res) => {
     var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db: <br>'
-    updateData(function() {
+    updateData((queryResult) => {
         res.send(response + queryResult)
     })
 })
@@ -111,7 +109,8 @@ function updateData(callback) {
         for (let row of result.rows) {
             queryResult = queryResult.concat(JSON.stringify(row) + '<br>')
         }
-        callback()
+        
+        callback(queryResult)
     })
 }
 
