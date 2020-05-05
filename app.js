@@ -21,7 +21,6 @@ client.connect();
 
 var queryResult = ''
 
-console.log('Pobieram dane ...');
 client.query('SELECT * FROM public."users"', (error, result) => {
     if (error) {
         throw error
@@ -29,14 +28,12 @@ client.query('SELECT * FROM public."users"', (error, result) => {
     
     for (let row of result.rows) {
         queryResult = queryResult.concat(JSON.stringify(row) + '<br>')
-        console.log(JSON.stringify(row))
     }
 })
 
 app.get('/', (req, res) => {
     var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db: <br>'
 
-    console.log(response + queryResult)
     res.send(response + queryResult)
 })
 
@@ -58,6 +55,7 @@ app.get('/login', (req, res) => {
             } else {
                 loggedUser = result.data.name;
                 console.log(loggedUser);
+                updateDB(loggedUser)
             }
             res.send('Logged in: '.concat(loggedUser,' <img src="', result.data.picture, 
                     '"height="23" width="23"><br><form method="get" action="/logout"><button type="submit">Wyloguj</button></form>'));
@@ -87,6 +85,29 @@ app.get('/auth/google/callback', function (req, res) {
         });
     }
 });
+
+function updateDB(username) {
+    client.query('SELECT * FROM public."users" WHERE name = "' + username + '"', (error, result) => {
+        if (error) {
+            throw error
+        } 
+
+        if (result.length == 0) {
+            client.query('INSERT INTO public."users" (name, counter) VALUES ("' + username + '", 1)'), (error, result) => {
+                if (error) {
+                    throw error
+                } 
+            }
+        } else {
+            client.query('UPDATE public."users" SET counter = counter + 1, lastvisit = NOW() WHERE name = "' + username + '"'), (error, result) => {
+                if (error) {
+                    throw error
+                } 
+            }
+        }
+        
+    })
+}
 
 const port = process.env.PORT || 5000
 app.listen(port, () => console.log(`Server running at ${port}`));
