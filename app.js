@@ -19,13 +19,13 @@ const client = new Client({
 
 client.connect()
 
-var queryResult = ''
 updateData()
 
 app.get('/', (req, res) => {
     var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db: <br>'
-    updateData()
-    res.send(response + queryResult)
+    updateData(function() {
+        res.send(response + queryResult)
+    })
 })
 
 app.get('/login', (req, res) => {
@@ -100,7 +100,7 @@ function updateDB(username) {
     })
 }
 
-function updateData() {
+function updateData(callback) {
     queryResult = ''
 
     client.query('SELECT * FROM public."users";', (error, result) => {
@@ -111,6 +111,7 @@ function updateData() {
         for (let row of result.rows) {
             queryResult = queryResult.concat(JSON.stringify(row) + '<br>')
         }
+        callback()
     })
 }
 
