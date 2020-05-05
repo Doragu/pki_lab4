@@ -11,6 +11,27 @@ const REDIRECT_URL = OAuth2Data.web.redirect_uris[1]
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL)
 var authed = false;
 
+const { Client } = require('pg');
+
+const client = new Client({
+    connectionString: process.env.DATABASE_URL
+});
+
+client.connect();
+
+const getUsers = (request, response) => {
+    console.log('Pobieram dane ...');
+    client.query('SELECT * FROM public."Users"', (error, res) => {
+        if (error) {
+            throw error
+        }
+        console.log('Dostałem ...');
+        for (let row of res.rows) {
+            console.log(JSON.stringify(row));
+        }
+    })
+}
+
 app.get('/', (req, res) => {
     res.send('<form method="get" action="/login"><button type="submit">Zaloguj</button></form>')
 })
@@ -65,3 +86,5 @@ app.get('/auth/google/callback', function (req, res) {
 
 const port = process.env.PORT || 5000
 app.listen(port, () => console.log(`Server running at ${port}`));
+
+// Heroku link: https://frozen-scrubland-88807.herokuapp.com/

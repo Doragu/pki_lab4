@@ -10,9 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "googleapis": "^49.0.0",
     "google-auth-library": "^6.0.0",
-    "googleapis-common": "^4.0.0"
+    "googleapis": "^49.0.0",
+    "googleapis-common": "^4.0.0",
+    "pg": "^8.0.3"
   },
   "engines": {
     "node": "12.16.2"
