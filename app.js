@@ -19,23 +19,25 @@ const client = new Client({
 
 client.connect();
 
+var queryResult = ''
+
+console.log('Pobieram dane ...');
+client.query('SELECT * FROM public."users"', (error, result) => {
+    if (error) {
+        throw error
+    }
+    
+    for (let row of result.rows) {
+        queryResult = queryResult.concat(JSON.stringify(row) + '<br>')
+        console.log(JSON.stringify(row))
+    }
+})
+
 app.get('/', (req, res) => {
-    var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db:'
+    var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db: <br>'
 
-    console.log('Pobieram dane ...');
-    client.query('SELECT * FROM public."users"', (error, result) => {
-        if (error) {
-            throw error
-        }
-        
-        for (let row of result.rows) {
-            response = response.concat(JSON.stringify(row) + '<br>')
-            console.log(JSON.stringify(row))
-        }
-    })
-
-    console.log('#####' + response)
-    res.send(response)
+    console.log(response + queryResult)
+    res.send(response + queryResult)
 })
 
 app.get('/login', (req, res) => {
