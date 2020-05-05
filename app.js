@@ -17,23 +17,14 @@ const client = new Client({
     connectionString: process.env.DATABASE_URL
 });
 
-client.connect();
+client.connect()
 
 var queryResult = ''
-
-client.query('SELECT * FROM public."users";', (error, result) => {
-    if (error) {
-        throw error
-    }
-    
-    for (let row of result.rows) {
-        queryResult = queryResult.concat(JSON.stringify(row) + '<br>')
-    }
-})
+updateData()
 
 app.get('/', (req, res) => {
     var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db: <br>'
-
+    updateData()
     res.send(response + queryResult)
 })
 
@@ -91,7 +82,8 @@ function updateDB(username) {
         if (error) {
             throw error
         } 
-
+        console.log(JSON.stringify(row))    
+        console.log("Rows: " + result.length)
         if (result.length == 0) {
             client.query(`INSERT INTO public."users" (name, counter) VALUES ('${username}', 1);`, (error, result) => {
                 if (error) {
@@ -104,6 +96,20 @@ function updateDB(username) {
                     throw error
                 } 
             })
+        }
+    })
+}
+
+function updateData() {
+    queryResult = ''
+
+    client.query('SELECT * FROM public."users";', (error, result) => {
+        if (error) {
+            throw error
+        }
+        
+        for (let row of result.rows) {
+            queryResult = queryResult.concat(JSON.stringify(row) + '<br>')
         }
     })
 }
