@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
             throw error
         }
         
-        for (let row of result) {
+        for (let row of result.rows) {
             response = response.concat(JSON.stringify(row) + '<br>')
             console.log(JSON.stringify(row))
         }
