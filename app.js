@@ -87,20 +87,19 @@ app.get('/auth/google/callback', function (req, res) {
 });
 
 function updateDB(username) {
-    console.log(`SELECT * FROM public."users" WHERE name = '${username}';`)
     client.query(`SELECT * FROM public."users" WHERE name = '${username}';`, (error, result) => {
         if (error) {
             throw error
         } 
 
         if (result.length == 0) {
-            client.query(`INSERT INTO public.'users' (name, counter) VALUES ('${username}', 1);`, (error, result) => {
+            client.query(`INSERT INTO public."users" (name, counter) VALUES ('${username}', 1);`, (error, result) => {
                 if (error) {
                     throw error
                 } 
             })
         } else {
-            client.query(`UPDATE public.'users' SET counter = counter + 1, lastvisit = NOW() WHERE public.'users'.'name' = '${username}';`, (error, result) => {
+            client.query(`UPDATE public."users" SET counter = counter + 1, lastvisit = NOW() WHERE name = '${username}';`, (error, result) => {
                 if (error) {
                     throw error
                 } 
