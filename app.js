@@ -23,17 +23,18 @@ app.get('/', (req, res) => {
     var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db:'
 
     console.log('Pobieram dane ...');
-    client.query('SELECT * FROM public."users"', (error, res) => {
+    client.query('SELECT * FROM public."users"', (error, result) => {
         if (error) {
             throw error
         }
         
-        for (let row of res.rows) {
-            response = response.concat(row['name'] + '<br>')
-            console.log(row)
+        for (let row of result) {
+            response = response.concat(JSON.stringify(row) + '<br>')
+            console.log(JSON.stringify(row))
         }
     })
-    console.log(response)
+
+    console.log('#####' + response)
     res.send(response)
 })
 
