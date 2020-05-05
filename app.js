@@ -19,7 +19,9 @@ const client = new Client({
 
 client.connect();
 
-const getUsers = (request, response) => {
+app.get('/', (req, res) => {
+    response = ''
+
     console.log('Pobieram dane ...');
     client.query('SELECT * FROM public."Users"', (error, res) => {
         if (error) {
@@ -27,13 +29,12 @@ const getUsers = (request, response) => {
         }
         console.log('Dostałem ...');
         for (let row of res.rows) {
-            console.log(JSON.stringify(row));
+            response = string.concat(response, JSON.stringify(row), '<br>');
         }
     })
-}
-
-app.get('/', (req, res) => {
-    res.send('<form method="get" action="/login"><button type="submit">Zaloguj</button></form>')
+    
+    response = string.concat('<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br>', response)
+    res.send(response)
 })
 
 app.get('/login', (req, res) => {
