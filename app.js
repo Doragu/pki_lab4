@@ -87,7 +87,7 @@ app.get('/auth/google/callback', function (req, res) {
 });
 
 function updateDB(username) {
-    client.query(`SELECT * users WHERE name = '${username}';`, (error, result) => {
+    client.query(`SELECT * FROM users WHERE name = '${username}';`, (error, result) => {
         if (error) {
             throw error
         } 
