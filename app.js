@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     response = ''
 
     console.log('Pobieram dane ...');
-    client.query('SELECT * FROM public."Users"', (error, res) => {
+    client.query('SELECT * FROM public."users"', (error, res) => {
         if (error) {
             throw error
         }
