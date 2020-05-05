@@ -80,7 +80,7 @@ function updateDB(username) {
         if (error) {
             throw error
         } 
-        console.log(JSON.stringify(row))    
+  
         console.log("Rows: " + result.length)
         if (result.length == 0) {
             client.query(`INSERT INTO public."users" (name, counter) VALUES ('${username}', 1);`, (error, result) => {
