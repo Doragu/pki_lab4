@@ -30,9 +30,10 @@ app.get('/', (req, res) => {
         
         for (let row of res.rows) {
             response = response.concat(row + '<br>')
+            console.log(row)
         }
     })
-    
+    console.log(response)
     res.send(response)
 })
 
