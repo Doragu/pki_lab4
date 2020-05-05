@@ -81,8 +81,6 @@ function updateDB(username) {
             throw error
         } 
   
-        console.log(result.rows)
-        console.log("Rows: " + result.rows.length)
         if (result.rows.length <= 0) {
             client.query(`INSERT INTO public."users" (name, counter) VALUES ('${username}', 1);`, (error, result) => {
                 if (error) {
