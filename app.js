@@ -20,17 +20,16 @@ const client = new Client({
 client.connect();
 
 app.get('/', (req, res) => {
-    var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br>'
+    var response = '<form method="get" action="/login"><button type="submit">Zaloguj</button></form> <br> Results from db:'
 
     console.log('Pobieram dane ...');
     client.query('SELECT * FROM public."users"', (error, res) => {
         if (error) {
             throw error
         }
-
+        
         for (let row of res.rows) {
-            console.log('#')
-            console.log(JSON.stringify(row));
+            response = response.concat(row + '<br>')
         }
     })
     
