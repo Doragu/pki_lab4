@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
         }
 
         for (let row of res.rows) {
-            response = response.concat(response, JSON.stringify(row), '<br>');
+            response = response.concat(JSON.stringify(row), '<br>');
         }
     })
     
