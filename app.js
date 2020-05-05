@@ -29,7 +29,8 @@ app.get('/', (req, res) => {
         }
 
         for (let row of res.rows) {
-            response = response.concat(JSON.stringify(row), '<br>');
+            console.log('#')
+            console.log(JSON.stringify(row));
         }
     })
     
